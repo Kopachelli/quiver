@@ -104,3 +104,15 @@ docs/port-spec/  the reverse‑engineering spec + implementation plan this port 
 ```
 
 Detailed reverse‑engineering notes for each subsystem live in `docs/port-spec/`.
+
+## License & acknowledgements
+
+Released under the **MIT License** (see [LICENSE](LICENSE)). Free and open source — a paid edition
+with extra features may follow later.
+
+Skills for Windows is an **independent, from‑scratch C#/WPF reimplementation** inspired by and
+behavior‑faithful to [robzilla1738/skillz-macos](https://github.com/robzilla1738/skillz-macos).
+No source code was copied; all original macOS artwork has been removed and the app icon is
+original. UI glyphs come from the Fluent System Icons shipped with WPF‑UI (MIT). Thanks to the
+original project for the concept and design language.
+
