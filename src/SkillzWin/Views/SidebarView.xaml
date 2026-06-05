@@ -1,0 +1,71 @@
+<UserControl x:Class="SkillzWin.Views.SidebarView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:ui="http://schemas.lepo.co/wpfui/2022/xaml"
+             Background="{DynamicResource SkillzCanvasBrush}">
+
+    <UserControl.Resources>
+        <DataTemplate x:Key="NavRowTemplate">
+            <Button Command="{Binding ActivateCommand}" HorizontalContentAlignment="Stretch"
+                    Cursor="Hand" Margin="0,1">
+                <Button.Template>
+                    <ControlTemplate TargetType="Button">
+                        <Border x:Name="bd" CornerRadius="8" Padding="8,7" Background="Transparent">
+                            <Grid>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="Auto"/>
+                                    <ColumnDefinition Width="*"/>
+                                    <ColumnDefinition Width="Auto"/>
+                                </Grid.ColumnDefinitions>
+                                <ui:SymbolIcon x:Name="icon" Grid.Column="0" Symbol="{Binding Icon}"
+                                               FontSize="16" Margin="0,0,8,0" VerticalAlignment="Center"
+                                               Foreground="{DynamicResource SkillzMutedBrush}"/>
+                                <TextBlock x:Name="title" Grid.Column="1" Text="{Binding Title}"
+                                           Style="{StaticResource SkillzNavItemText}" VerticalAlignment="Center"
+                                           TextTrimming="CharacterEllipsis"/>
+                                <TextBlock Grid.Column="2" Text="{Binding Count}" Margin="8,0,0,0"
+                                           Style="{StaticResource SkillzCaptionText}" VerticalAlignment="Center"/>
+                            </Grid>
+                        </Border>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsMouseOver" Value="True">
+                                <Setter TargetName="bd" Property="Background" Value="{DynamicResource SkillzSelectionHoverBrush}"/>
+                            </Trigger>
+                            <DataTrigger Binding="{Binding IsSelected}" Value="True">
+                                <Setter TargetName="bd" Property="Background" Value="{DynamicResource SkillzSelectionTabBrush}"/>
+                                <Setter TargetName="icon" Property="Foreground" Value="{DynamicResource SkillzEmphasisBrush}"/>
+                                <Setter TargetName="title" Property="FontWeight" Value="SemiBold"/>
+                            </DataTrigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Button.Template>
+            </Button>
+        </DataTemplate>
+    </UserControl.Resources>
+
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+
+        <!-- Header -->
+        <StackPanel Grid.Row="0" Margin="16,12,16,12">
+            <TextBlock Text="{Binding AppName}" Style="{StaticResource SkillzNavigationTitleText}"/>
+            <TextBlock Style="{StaticResource SkillzCaptionText}" Margin="0,3,0,0">
+                <Run Text="{Binding TotalItemCount, Mode=OneWay}"/><Run Text=" catalog items"/>
+            </TextBlock>
+        </StackPanel>
+
+        <!-- Sections -->
+        <ScrollViewer Grid.Row="1" VerticalScrollBarVisibility="Auto" Padding="8,0,8,8">
+            <StackPanel>
+                <TextBlock Text="LIBRARY" Style="{StaticResource SkillzSectionHeaderText}" Margin="8,8,8,4"/>
+                <ItemsControl ItemsSource="{Binding SectionRows}" ItemTemplate="{StaticResource NavRowTemplate}"/>
+
+                <TextBlock Text="PLATFORMS" Style="{StaticResource SkillzSectionHeaderText}" Margin="8,16,8,4"/>
+                <ItemsControl ItemsSource="{Binding PlatformRows}" ItemTemplate="{StaticResource NavRowTemplate}"/>
+            </StackPanel>
+        </ScrollViewer>
+    </Grid>
+</UserControl>

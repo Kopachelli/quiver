@@ -1,0 +1,15 @@
+<UserControl x:Class="SkillzWin.Views.Components.EmptyState"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             x:Name="Root"
+             Background="{DynamicResource SkillzCanvasBrush}">
+    <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center" MaxWidth="320">
+        <TextBlock Text="{Binding Title, ElementName=Root}"
+                   Style="{StaticResource SkillzListTitleText}"
+                   HorizontalAlignment="Center" TextAlignment="Center"/>
+        <TextBlock Text="{Binding Message, ElementName=Root}"
+                   Style="{StaticResource SkillzBodySecondaryText}"
+                   HorizontalAlignment="Center" TextAlignment="Center"
+                   Margin="0,8,0,0"/>
+    </StackPanel>
+</UserControl>

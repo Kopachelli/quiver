@@ -1,0 +1,100 @@
+<UserControl x:Class="SkillzWin.Views.ItemListView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:comp="clr-namespace:SkillzWin.Views.Components"
+             Background="{DynamicResource SkillzCanvasBrush}">
+
+    <UserControl.Resources>
+        <Style x:Key="ListRowContainer" TargetType="ListBoxItem">
+            <Setter Property="Padding" Value="16,10"/>
+            <Setter Property="Margin" Value="8,2"/>
+            <Setter Property="HorizontalContentAlignment" Value="Stretch"/>
+            <Setter Property="Tag" Value="{Binding DataContext, RelativeSource={RelativeSource AncestorType=UserControl}}"/>
+            <EventSetter Event="PreviewMouseRightButtonDown" Handler="OnItemRightClick"/>
+            <Setter Property="ContextMenu">
+                <Setter.Value>
+                    <ContextMenu>
+                        <MenuItem Header="Reveal in Explorer"
+                                  Command="{Binding PlacementTarget.Tag.RevealItemCommand, RelativeSource={RelativeSource AncestorType=ContextMenu}}"
+                                  CommandParameter="{Binding PlacementTarget.DataContext, RelativeSource={RelativeSource AncestorType=ContextMenu}}"/>
+                        <MenuItem Header="Copy Path"
+                                  Command="{Binding PlacementTarget.Tag.CopyItemPathCommand, RelativeSource={RelativeSource AncestorType=ContextMenu}}"
+                                  CommandParameter="{Binding PlacementTarget.DataContext, RelativeSource={RelativeSource AncestorType=ContextMenu}}"/>
+                        <MenuItem Header="Open in Cursor"
+                                  Command="{Binding PlacementTarget.Tag.OpenItemInCursorCommand, RelativeSource={RelativeSource AncestorType=ContextMenu}}"
+                                  CommandParameter="{Binding PlacementTarget.DataContext, RelativeSource={RelativeSource AncestorType=ContextMenu}}"
+                                  Visibility="{Binding PlacementTarget.DataContext.AsSkill, RelativeSource={RelativeSource AncestorType=ContextMenu}, Converter={StaticResource NullOrEmptyToVis}}"/>
+                    </ContextMenu>
+                </Setter.Value>
+            </Setter>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="ListBoxItem">
+                        <Border x:Name="bd" CornerRadius="8" Background="Transparent" Padding="{TemplateBinding Padding}">
+                            <ContentPresenter/>
+                        </Border>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsMouseOver" Value="True">
+                                <Setter TargetName="bd" Property="Background" Value="{DynamicResource SkillzSelectionHoverBrush}"/>
+                            </Trigger>
+                            <Trigger Property="IsSelected" Value="True">
+                                <Setter TargetName="bd" Property="Background" Value="{DynamicResource SkillzSelectionBrush}"/>
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+
+        <DataTemplate x:Key="ListRowTemplate">
+            <StackPanel MinHeight="44">
+                <StackPanel Orientation="Horizontal">
+                    <TextBlock x:Name="title" Text="{Binding DisplayName}"
+                               Style="{StaticResource SkillzListTitleText}" VerticalAlignment="Center"/>
+                    <comp:Tag Text="{Binding Platform, Converter={StaticResource PlatformDisplay}}"
+                              Variant="Subtle" Margin="8,0,0,0" VerticalAlignment="Center"/>
+                    <comp:Tag Text="{Binding AsPlugin.IsEnabled, Converter={StaticResource EnabledText}}"
+                              Variant="Subtle" Margin="6,0,0,0" VerticalAlignment="Center"
+                              Visibility="{Binding AsPlugin, Converter={StaticResource NullOrEmptyToVis}}"/>
+                </StackPanel>
+                <TextBlock Text="{Binding Converter={StaticResource Subtitle}}"
+                           Style="{StaticResource SkillzBodySecondaryText}"
+                           MaxHeight="34" TextTrimming="CharacterEllipsis" Margin="0,6,0,0"/>
+            </StackPanel>
+            <DataTemplate.Triggers>
+                <DataTrigger Binding="{Binding IsSelected, RelativeSource={RelativeSource AncestorType=ListBoxItem}}" Value="True">
+                    <Setter TargetName="title" Property="FontWeight" Value="SemiBold"/>
+                </DataTrigger>
+            </DataTemplate.Triggers>
+        </DataTemplate>
+    </UserControl.Resources>
+
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+
+        <!-- Pinned header -->
+        <Border Grid.Row="0" Padding="16,24,16,12">
+            <TextBlock Text="{Binding ListTitle}" Style="{StaticResource SkillzNavigationTitleText}"/>
+        </Border>
+
+        <!-- List + empty state -->
+        <Grid Grid.Row="1">
+            <ListBox ItemsSource="{Binding Catalog.FilteredItems}"
+                     SelectedValuePath="Id"
+                     SelectedValue="{Binding Catalog.SelectedItemId, Mode=TwoWay}"
+                     ItemContainerStyle="{StaticResource ListRowContainer}"
+                     ItemTemplate="{StaticResource ListRowTemplate}"
+                     Background="Transparent" BorderThickness="0"
+                     HorizontalContentAlignment="Stretch"
+                     ScrollViewer.HorizontalScrollBarVisibility="Disabled"
+                     Visibility="{Binding Catalog.FilteredItems, Converter={StaticResource NullOrEmptyToVis}}"/>
+
+            <comp:EmptyState Title="No Items"
+                             Message="Try another section or platform filter, or refresh the catalog."
+                             Visibility="{Binding Catalog.FilteredItems, Converter={StaticResource NullOrEmptyToVis}, ConverterParameter=invert}"/>
+        </Grid>
+    </Grid>
+</UserControl>
