@@ -1,0 +1,31 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <OutputType>WinExe</OutputType>
+    <TargetFramework>net8.0-windows</TargetFramework>
+    <Nullable>enable</Nullable>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <UseWPF>true</UseWPF>
+    <RootNamespace>SkillzWin</RootNamespace>
+    <AssemblyName>SkillzWin</AssemblyName>
+    <ApplicationIcon>Assets\AppIcon.ico</ApplicationIcon>
+    <LangVersion>latest</LangVersion>
+    <Version>0.1.0</Version>
+    <Product>Skills</Product>
+    <Description>Browse, edit, and manage local AI tool assets — skills, MCP servers, and plugins — across Cursor, Claude Code, Codex, Hermes, Pi, and OpenCode.</Description>
+    <Company>Skills</Company>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="WPF-UI" Version="4.3.0" />
+    <PackageReference Include="AvalonEdit" Version="6.3.1.120" />
+    <PackageReference Include="CommunityToolkit.Mvvm" Version="8.4.2" />
+    <PackageReference Include="Microsoft.Extensions.DependencyInjection" Version="8.0.1" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Resource Include="Assets\PlatformIcons\*.png" />
+    <Resource Include="Assets\AppIcon.ico" />
+  </ItemGroup>
+
+</Project>

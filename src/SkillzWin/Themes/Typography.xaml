@@ -1,0 +1,24 @@
+<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:sys="clr-namespace:System;assembly=mscorlib">
+    <!-- Mono everywhere — this is the defining aesthetic of the app. -->
+    <FontFamily x:Key="SkillzMonoFont">Cascadia Code, Consolas</FontFamily>
+    <FontFamily x:Key="SkillzUiFont">Segoe UI Variable, Segoe UI</FontFamily>
+
+    <!-- Type scale (raw macOS pt values kept for visual parity; WPF DIP) -->
+    <sys:Double x:Key="SkillzFontNavTitle">15</sys:Double>
+    <sys:Double x:Key="SkillzFontHeadline">14</sys:Double>
+    <sys:Double x:Key="SkillzFontTitle">13</sys:Double>
+    <sys:Double x:Key="SkillzFontListTitle">13</sys:Double>
+    <sys:Double x:Key="SkillzFontNavItem">12</sys:Double>
+    <sys:Double x:Key="SkillzFontBody">12</sys:Double>
+    <sys:Double x:Key="SkillzFontMono">12</sys:Double>
+    <sys:Double x:Key="SkillzFontCaption">11</sys:Double>
+    <sys:Double x:Key="SkillzFontCaptionMedium">11</sys:Double>
+    <sys:Double x:Key="SkillzFontSection">10</sys:Double>
+
+    <!-- Weights -->
+    <FontWeight x:Key="SkillzWeightRegular">Normal</FontWeight>
+    <FontWeight x:Key="SkillzWeightMedium">Medium</FontWeight>
+    <FontWeight x:Key="SkillzWeightSemibold">SemiBold</FontWeight>
+</ResourceDictionary>

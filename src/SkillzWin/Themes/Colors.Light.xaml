@@ -1,0 +1,28 @@
+<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+    <!-- Skillz monochrome palette — LIGHT. Grayscale by design; accent is pure black. -->
+    <Color x:Key="SkillzCanvasColor">#FFFFFFFF</Color>
+    <Color x:Key="SkillzInkColor">#FF000000</Color>
+    <Color x:Key="SkillzEmphasisColor">#FF333333</Color>
+    <Color x:Key="SkillzMutedColor">#FF535353</Color>
+    <Color x:Key="SkillzSectionLabelColor">#FF474747</Color>
+    <Color x:Key="SkillzDisabledColor">#FF777777</Color>
+    <Color x:Key="SkillzHairlineColor">#FFE8E8E8</Color>
+    <Color x:Key="SkillzSelectionColor">#FFD5D5D5</Color>
+    <Color x:Key="SkillzAccentColor">#FF000000</Color>
+
+    <SolidColorBrush x:Key="SkillzCanvasBrush"       Color="{StaticResource SkillzCanvasColor}"/>
+    <SolidColorBrush x:Key="SkillzInkBrush"          Color="{StaticResource SkillzInkColor}"/>
+    <SolidColorBrush x:Key="SkillzEmphasisBrush"     Color="{StaticResource SkillzEmphasisColor}"/>
+    <SolidColorBrush x:Key="SkillzMutedBrush"        Color="{StaticResource SkillzMutedColor}"/>
+    <SolidColorBrush x:Key="SkillzSectionLabelBrush" Color="{StaticResource SkillzSectionLabelColor}"/>
+    <SolidColorBrush x:Key="SkillzDisabledBrush"     Color="{StaticResource SkillzDisabledColor}"/>
+    <SolidColorBrush x:Key="SkillzHairlineBrush"     Color="{StaticResource SkillzHairlineColor}"/>
+    <SolidColorBrush x:Key="SkillzSelectionBrush"    Color="{StaticResource SkillzSelectionColor}"/>
+    <SolidColorBrush x:Key="SkillzAccentBrush"       Color="{StaticResource SkillzAccentColor}"/>
+
+    <!-- Derived (opacity-baked) brushes -->
+    <SolidColorBrush x:Key="SkillzSelectionTabBrush"   Color="#D5D5D5" Opacity="0.58"/>
+    <SolidColorBrush x:Key="SkillzSelectionHoverBrush" Color="#D5D5D5" Opacity="0.5"/>
+    <SolidColorBrush x:Key="SkillzEmphasisBorderBrush" Color="#333333" Opacity="0.35"/>
+</ResourceDictionary>

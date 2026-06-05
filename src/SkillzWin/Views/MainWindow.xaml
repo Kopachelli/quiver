@@ -1,0 +1,126 @@
+<ui:FluentWindow x:Class="SkillzWin.Views.MainWindow"
+                 xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                 xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                 xmlns:ui="http://schemas.lepo.co/wpfui/2022/xaml"
+                 xmlns:v="clr-namespace:SkillzWin.Views"
+                 Title="Skills"
+                 Icon="pack://application:,,,/Assets/AppIcon.ico"
+                 Width="1440" Height="880"
+                 MinWidth="1200" MinHeight="720"
+                 WindowStartupLocation="CenterScreen"
+                 WindowBackdropType="Mica"
+                 ExtendsContentIntoTitleBar="True">
+
+    <ui:FluentWindow.InputBindings>
+        <KeyBinding Modifiers="Ctrl" Key="N" Command="{Binding NewSkillCommand}"/>
+        <KeyBinding Modifiers="Ctrl" Key="R" Command="{Binding RefreshCommand}"/>
+        <KeyBinding Key="F5" Command="{Binding RefreshCommand}"/>
+        <KeyBinding Modifiers="Ctrl" Key="S" Command="{Binding SaveCommand}"/>
+        <KeyBinding Modifiers="Ctrl" Key="B" Command="{Binding ToggleSidebarCommand}"/>
+        <KeyBinding Modifiers="Ctrl+Alt" Key="I" Command="{Binding ToggleInspectorCommand}"/>
+    </ui:FluentWindow.InputBindings>
+
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+
+        <ui:TitleBar Grid.Row="0" Title="Skills"/>
+
+        <!-- Top toolbar -->
+        <Border Grid.Row="1" Background="{DynamicResource SkillzCanvasBrush}" Padding="16,8,16,8">
+            <Border.Effect>
+                <DropShadowEffect Color="Black" Opacity="0.04" BlurRadius="6" ShadowDepth="1" Direction="270"/>
+            </Border.Effect>
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto"/>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="Auto"/>
+                </Grid.ColumnDefinitions>
+
+                <!-- left cluster -->
+                <StackPanel Grid.Column="0" Orientation="Horizontal">
+                    <Button Style="{StaticResource SkillzIconButton}" Command="{Binding ToggleSidebarCommand}"
+                            ToolTip="Toggle sidebar (Ctrl+B)">
+                        <ui:SymbolIcon Symbol="PanelLeft24" FontSize="16"/>
+                    </Button>
+                    <Button Content="New Skill" Style="{StaticResource SkillzPillButton}" Margin="12,0,0,0"
+                            Command="{Binding NewSkillCommand}" ToolTip="Create a new skill (Ctrl+N)"/>
+                    <Button Content="Refresh" Style="{StaticResource SkillzPillButton}" Margin="8,0,0,0"
+                            Command="{Binding RefreshCommand}" ToolTip="Refresh catalog (Ctrl+R / F5)"/>
+                </StackPanel>
+
+                <!-- right cluster -->
+                <StackPanel Grid.Column="2" Orientation="Horizontal">
+                    <StackPanel Orientation="Horizontal" Margin="0,0,12,0"
+                                Visibility="{Binding IsSkillSelected, Converter={StaticResource BoolToVis}}">
+                        <Button Content="Details" Style="{StaticResource SkillzPillButton}"
+                                Command="{Binding EditDetailsCommand}" ToolTip="Edit skill metadata"/>
+                        <Button Content="Rename" Style="{StaticResource SkillzPillButton}" Margin="8,0,0,0"
+                                Command="{Binding RenameSkillCommand}" ToolTip="Rename skill folder"/>
+                        <Button Content="Delete" Style="{StaticResource SkillzPillButton}" Margin="8,0,0,0"
+                                Command="{Binding DeleteSkillCommand}" ToolTip="Delete skill folder"/>
+                        <Button Content="Save" Style="{StaticResource SkillzPillButton}" Margin="12,0,0,0"
+                                Command="{Binding SaveCommand}" ToolTip="Save now (Ctrl+S)"/>
+                    </StackPanel>
+
+                    <ui:TextBox Width="320" PlaceholderText="Search skills, MCPs, plugins"
+                                Text="{Binding Catalog.SearchText, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}">
+                        <ui:TextBox.Icon>
+                            <ui:SymbolIcon Symbol="Search16"/>
+                        </ui:TextBox.Icon>
+                    </ui:TextBox>
+                </StackPanel>
+            </Grid>
+        </Border>
+
+        <!-- 3-pane content -->
+        <Grid Grid.Row="2" Background="{DynamicResource SkillzCanvasBrush}">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="{Binding IsSidebarVisible, Converter={StaticResource BoolToGridLength}, ConverterParameter=220}"
+                                  MinWidth="0" MaxWidth="260"/>
+                <ColumnDefinition Width="Auto"/>
+                <ColumnDefinition Width="360" MinWidth="300" MaxWidth="460"/>
+                <ColumnDefinition Width="Auto"/>
+                <ColumnDefinition Width="*" MinWidth="520"/>
+            </Grid.ColumnDefinitions>
+
+            <v:SidebarView Grid.Column="0"/>
+            <Border Grid.Column="0" Style="{StaticResource SkillzHairline}" Width="1" HorizontalAlignment="Right"/>
+
+            <GridSplitter Grid.Column="1" Width="1" HorizontalAlignment="Center" VerticalAlignment="Stretch"
+                          Background="{DynamicResource SkillzHairlineBrush}"
+                          Visibility="{Binding IsSidebarVisible, Converter={StaticResource BoolToVis}}"/>
+
+            <v:ItemListView Grid.Column="2"/>
+            <GridSplitter Grid.Column="3" Width="1" HorizontalAlignment="Center" VerticalAlignment="Stretch"
+                          Background="{DynamicResource SkillzHairlineBrush}"/>
+
+            <v:DetailContainerView Grid.Column="4"/>
+        </Grid>
+
+        <!-- Error banner -->
+        <Border Grid.Row="2" VerticalAlignment="Bottom" HorizontalAlignment="Stretch" Margin="16,0,16,16"
+                Background="{DynamicResource SkillzCanvasBrush}" CornerRadius="10"
+                BorderBrush="{DynamicResource SkillzHairlineBrush}" BorderThickness="1" Padding="16,12"
+                Visibility="{Binding HasError, Converter={StaticResource BoolToVis}}">
+            <Border.Effect>
+                <DropShadowEffect Color="Black" Opacity="0.08" BlurRadius="8" ShadowDepth="2" Direction="270"/>
+            </Border.Effect>
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="Auto"/>
+                </Grid.ColumnDefinitions>
+                <TextBlock Grid.Column="0" Text="{Binding ErrorMessage}" Style="{StaticResource SkillzCaptionText}"
+                           Foreground="{DynamicResource SkillzEmphasisBrush}" TextWrapping="Wrap" MaxHeight="60"
+                           VerticalAlignment="Center"/>
+                <Button Grid.Column="1" Content="Dismiss" Style="{StaticResource SkillzTextButton}" Margin="12,0,0,0"
+                        Command="{Binding DismissErrorCommand}"/>
+            </Grid>
+        </Border>
+    </Grid>
+</ui:FluentWindow>

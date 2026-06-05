@@ -1,0 +1,44 @@
+<UserControl x:Class="SkillzWin.Views.Components.Tag"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             x:Name="Root">
+    <Border CornerRadius="{StaticResource TagRadius}" Padding="9,1" VerticalAlignment="Center" HorizontalAlignment="Left">
+        <Border.Style>
+            <Style TargetType="Border">
+                <Setter Property="Background" Value="Transparent"/>
+                <Setter Property="BorderBrush" Value="{DynamicResource SkillzHairlineBrush}"/>
+                <Setter Property="BorderThickness" Value="1"/>
+                <Style.Triggers>
+                    <DataTrigger Binding="{Binding Variant, ElementName=Root}" Value="Filled">
+                        <Setter Property="Background" Value="{DynamicResource SkillzInkBrush}"/>
+                        <Setter Property="BorderThickness" Value="0"/>
+                    </DataTrigger>
+                    <DataTrigger Binding="{Binding Variant, ElementName=Root}" Value="Outline">
+                        <Setter Property="Background" Value="{DynamicResource SkillzCanvasBrush}"/>
+                        <Setter Property="BorderBrush" Value="{DynamicResource SkillzEmphasisBrush}"/>
+                    </DataTrigger>
+                    <DataTrigger Binding="{Binding Variant, ElementName=Root}" Value="Muted">
+                        <Setter Property="Background" Value="{DynamicResource SkillzCanvasBrush}"/>
+                        <Setter Property="BorderBrush" Value="{DynamicResource SkillzHairlineBrush}"/>
+                    </DataTrigger>
+                </Style.Triggers>
+            </Style>
+        </Border.Style>
+        <TextBlock Text="{Binding Text, ElementName=Root}"
+                   FontFamily="{StaticResource SkillzMonoFont}" FontSize="11" FontWeight="Medium">
+            <TextBlock.Style>
+                <Style TargetType="TextBlock">
+                    <Setter Property="Foreground" Value="{DynamicResource SkillzMutedBrush}"/>
+                    <Style.Triggers>
+                        <DataTrigger Binding="{Binding Variant, ElementName=Root}" Value="Filled">
+                            <Setter Property="Foreground" Value="{DynamicResource SkillzCanvasBrush}"/>
+                        </DataTrigger>
+                        <DataTrigger Binding="{Binding Variant, ElementName=Root}" Value="Outline">
+                            <Setter Property="Foreground" Value="{DynamicResource SkillzEmphasisBrush}"/>
+                        </DataTrigger>
+                    </Style.Triggers>
+                </Style>
+            </TextBlock.Style>
+        </TextBlock>
+    </Border>
+</UserControl>
