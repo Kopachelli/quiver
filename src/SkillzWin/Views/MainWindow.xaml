@@ -3,7 +3,7 @@
                  xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
                  xmlns:ui="http://schemas.lepo.co/wpfui/2022/xaml"
                  xmlns:v="clr-namespace:SkillzWin.Views"
-                 Title="Skills"
+                 Title="Quiver"
                  Icon="pack://application:,,,/Assets/AppIcon.ico"
                  Width="1440" Height="880"
                  MinWidth="1200" MinHeight="720"
@@ -27,7 +27,7 @@
             <RowDefinition Height="*"/>
         </Grid.RowDefinitions>
 
-        <ui:TitleBar Grid.Row="0" Title="Skills"/>
+        <ui:TitleBar Grid.Row="0" Title="Quiver"/>
 
         <!-- Top toolbar -->
         <Border Grid.Row="1" Background="{DynamicResource SkillzCanvasBrush}" Padding="16,8,16,8">
@@ -51,6 +51,10 @@
                             Command="{Binding NewSkillCommand}" ToolTip="Create a new skill (Ctrl+N)"/>
                     <Button Content="Refresh" Style="{StaticResource SkillzPillButton}" Margin="8,0,0,0"
                             Command="{Binding RefreshCommand}" ToolTip="Refresh catalog (Ctrl+R / F5)"/>
+                    <Button Style="{StaticResource SkillzIconButton}" Margin="8,0,0,0"
+                            Command="{Binding OpenSettingsCommand}" ToolTip="Settings">
+                        <ui:SymbolIcon Symbol="Settings24" FontSize="16"/>
+                    </Button>
                 </StackPanel>
 
                 <!-- right cluster -->
@@ -63,7 +67,7 @@
                                 Command="{Binding RenameSkillCommand}" ToolTip="Rename skill folder"/>
                         <Button Content="Delete" Style="{StaticResource SkillzPillButton}" Margin="8,0,0,0"
                                 Command="{Binding DeleteSkillCommand}" ToolTip="Delete skill folder"/>
-                        <Button Content="Save" Style="{StaticResource SkillzPillButton}" Margin="12,0,0,0"
+                        <Button Content="Save" Style="{StaticResource SkillzPillButtonProminent}" Margin="12,0,0,0"
                                 Command="{Binding SaveCommand}" ToolTip="Save now (Ctrl+S)"/>
                     </StackPanel>
 

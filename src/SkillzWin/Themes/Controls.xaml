@@ -145,8 +145,8 @@
     </Style>
 
     <Style x:Key="SkillzPillButtonProminent" TargetType="Button" BasedOn="{StaticResource SkillzPillButton}">
-        <Setter Property="Background" Value="{DynamicResource SkillzInkBrush}"/>
-        <Setter Property="Foreground" Value="{DynamicResource SkillzCanvasBrush}"/>
+        <Setter Property="Background" Value="{DynamicResource SkillzAccentBrush}"/>
+        <Setter Property="Foreground" Value="{DynamicResource SkillzOnAccentBrush}"/>
         <Setter Property="BorderThickness" Value="0"/>
     </Style>
 

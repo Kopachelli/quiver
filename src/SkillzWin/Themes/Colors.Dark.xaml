@@ -9,7 +9,9 @@
     <Color x:Key="SkillzDisabledColor">#FF757575</Color>
     <Color x:Key="SkillzHairlineColor">#FF3C3C3C</Color>
     <Color x:Key="SkillzSelectionColor">#FF2E2E2E</Color>
-    <Color x:Key="SkillzAccentColor">#FF000000</Color>
+    <Color x:Key="SkillzAccentColor">#FF6366F1</Color>
+    <Color x:Key="SkillzOnAccentColor">#FFFFFFFF</Color>
+    <Color x:Key="SkillzAccentSoftColor">#FF2A2A3D</Color>
 
     <SolidColorBrush x:Key="SkillzCanvasBrush"       Color="{StaticResource SkillzCanvasColor}"/>
     <SolidColorBrush x:Key="SkillzInkBrush"          Color="{StaticResource SkillzInkColor}"/>
@@ -20,6 +22,8 @@
     <SolidColorBrush x:Key="SkillzHairlineBrush"     Color="{StaticResource SkillzHairlineColor}"/>
     <SolidColorBrush x:Key="SkillzSelectionBrush"    Color="{StaticResource SkillzSelectionColor}"/>
     <SolidColorBrush x:Key="SkillzAccentBrush"       Color="{StaticResource SkillzAccentColor}"/>
+    <SolidColorBrush x:Key="SkillzOnAccentBrush"     Color="{StaticResource SkillzOnAccentColor}"/>
+    <SolidColorBrush x:Key="SkillzAccentSoftBrush"   Color="{StaticResource SkillzAccentSoftColor}"/>
 
     <!-- Derived (opacity-baked) brushes -->
     <SolidColorBrush x:Key="SkillzSelectionTabBrush"   Color="#2E2E2E" Opacity="0.58"/>

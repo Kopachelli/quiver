@@ -51,7 +51,7 @@ public sealed partial class SettingsService : ObservableObject, ISettingsService
     public SettingsService()
     {
         var appData = Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData);
-        _path = Path.Combine(appData, "SkillzWin", "settings.json");
+        _path = Path.Combine(appData, "Quiver", "settings.json");
         _saveTimer = new DispatcherTimer { Interval = TimeSpan.FromMilliseconds(400) };
         _saveTimer.Tick += (_, _) => { _saveTimer.Stop(); Persist(); };
 

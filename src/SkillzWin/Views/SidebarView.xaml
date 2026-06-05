@@ -33,7 +33,8 @@
                             </Trigger>
                             <DataTrigger Binding="{Binding IsSelected}" Value="True">
                                 <Setter TargetName="bd" Property="Background" Value="{DynamicResource SkillzSelectionTabBrush}"/>
-                                <Setter TargetName="icon" Property="Foreground" Value="{DynamicResource SkillzEmphasisBrush}"/>
+                                <Setter TargetName="icon" Property="Foreground" Value="{DynamicResource SkillzAccentBrush}"/>
+                                <Setter TargetName="title" Property="Foreground" Value="{DynamicResource SkillzAccentBrush}"/>
                                 <Setter TargetName="title" Property="FontWeight" Value="SemiBold"/>
                             </DataTrigger>
                         </ControlTemplate.Triggers>

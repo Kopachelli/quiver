@@ -7,13 +7,13 @@
     <ImplicitUsings>enable</ImplicitUsings>
     <UseWPF>true</UseWPF>
     <RootNamespace>SkillzWin</RootNamespace>
-    <AssemblyName>SkillzWin</AssemblyName>
+    <AssemblyName>Quiver</AssemblyName>
     <ApplicationIcon>Assets\AppIcon.ico</ApplicationIcon>
     <LangVersion>latest</LangVersion>
     <Version>0.1.0</Version>
-    <Product>Skills</Product>
-    <Description>Browse, edit, and manage local AI tool assets — skills, MCP servers, and plugins — across Cursor, Claude Code, Codex, Hermes, Pi, and OpenCode.</Description>
-    <Company>Skills</Company>
+    <Product>Quiver</Product>
+    <Description>Quiver — browse, edit, and manage local AI tool assets (skills, MCP servers, and plugins) across Cursor, Claude Code, Codex, Hermes, Pi, and OpenCode.</Description>
+    <Company>Quiver</Company>
   </PropertyGroup>
 
   <ItemGroup>

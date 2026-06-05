@@ -27,6 +27,7 @@ public partial class MainWindow : FluentWindow
         _vm.RequestEditDetails = OpenSkillDetails;
         _vm.RequestRenameSkill = OpenRename;
         _vm.RequestDeleteSkill = OpenDelete;
+        _vm.RequestSettings = OpenSettings;
 
         Loaded += OnLoaded;
         Activated += OnActivated;
@@ -88,4 +89,21 @@ public partial class MainWindow : FluentWindow
     }
 
     private void OnClosed(object? sender, EventArgs e) => _vm.Catalog.StopWatching();
+
+    public void ShowOnboarding()
+    {
+        var vm = new OnboardingViewModel(App.Services.GetRequiredService<ISettingsService>(), _vm.Catalog);
+        var dlg = new OnboardingWindow { Owner = this, DataContext = vm };
+        vm.RequestClose = () => dlg.Close();
+        dlg.ShowDialog();
+    }
+
+    private void OpenSettings()
+    {
+        var vm = new SettingsViewModel(App.Services.GetRequiredService<ISettingsService>(), _vm.Catalog);
+        var dlg = new SettingsWindow { Owner = this, DataContext = vm };
+        vm.RequestClose = () => dlg.Close();
+        vm.RequestShowOnboarding = ShowOnboarding;
+        dlg.ShowDialog();
+    }
 }

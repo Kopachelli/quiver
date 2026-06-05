@@ -1,7 +1,7 @@
 namespace SkillzWin.Services;
 
-/// <summary>User-facing product brand. Mirrors macOS <c>AppBrand</c>. The Windows app/folder is "SkillzWin".</summary>
+/// <summary>User-facing product brand. The app is "Quiver" (inspired by skillz-macos).</summary>
 public static class AppBrand
 {
-    public const string Name = "Skills";
+    public const string Name = "Quiver";
 }
