@@ -1,10 +1,10 @@
-; Inno Setup script for Skills (Windows port of skillz-macos)
-; Compile with: ISCC.exe installer\Skills.iss
+; Inno Setup script for Quiver
+; Compile with: ISCC.exe installer\Quiver.iss
 
-#define MyAppName "Skills"
+#define MyAppName "Quiver"
 #define MyAppVersion "0.1.0"
-#define MyAppPublisher "Skills"
-#define MyAppExeName "SkillzWin.exe"
+#define MyAppPublisher "Quiver"
+#define MyAppExeName "Quiver.exe"
 
 [Setup]
 AppId={{593E57D0-33A9-4C73-BF2B-F1F867F56E28}
@@ -18,7 +18,7 @@ DisableProgramGroupPage=yes
 UninstallDisplayIcon={app}\{#MyAppExeName}
 SetupIconFile=C:\github\skills-windows\src\SkillzWin\Assets\AppIcon.ico
 OutputDir=C:\github\skills-windows\dist
-OutputBaseFilename=Skills-Setup-{#MyAppVersion}
+OutputBaseFilename=Quiver-Setup
 Compression=lzma2/max
 SolidCompression=yes
 WizardStyle=modern

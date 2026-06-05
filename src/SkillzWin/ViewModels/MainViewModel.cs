@@ -108,11 +108,14 @@ public sealed partial class MainViewModel : ObservableObject
     [RelayCommand(CanExecute = nameof(CanModifySelectedSkill))] private void RenameSkill() => RequestRenameSkill?.Invoke();
     [RelayCommand(CanExecute = nameof(CanModifySelectedSkill))] private void DeleteSkill() => RequestDeleteSkill?.Invoke();
 
-    /// <summary>Hooks the view wires to open dialogs (M9).</summary>
+    [RelayCommand] private void OpenSettings() => RequestSettings?.Invoke();
+
+    /// <summary>Hooks the view wires to open dialogs / windows.</summary>
     public Action? RequestNewSkill;
     public Action? RequestEditDetails;
     public Action? RequestRenameSkill;
     public Action? RequestDeleteSkill;
+    public Action? RequestSettings;
 
     // --- Wiring ---
 
@@ -196,7 +199,7 @@ public sealed partial class MainViewModel : ObservableObject
         (CurrentDetail as IDisposable)?.Dispose();
         CurrentDetail = Catalog.SelectedItem switch
         {
-            SkillCatalogItem s => new SkillDetailViewModel(s.Skill, _document, _scanner, Catalog),
+            SkillCatalogItem s => new SkillDetailViewModel(s.Skill, _document, _scanner, Catalog, _settings),
             McpCatalogItem m => m.Mcp,
             PluginCatalogItem p => p.Plugin,
             _ => null,

@@ -63,7 +63,7 @@
 
                     <avalon:TextEditor Grid.Column="1"
                                        v:AvalonEditBehavior.BoundText="{Binding EditorText, Mode=TwoWay}"
-                                       FontFamily="{StaticResource SkillzMonoFont}" FontSize="14" WordWrap="True"
+                                       FontFamily="{StaticResource SkillzMonoFont}" FontSize="{Binding EditorFontSize}" WordWrap="True"
                                        Padding="16" BorderThickness="0" ShowLineNumbers="False"
                                        Background="{DynamicResource SkillzCanvasBrush}"
                                        Foreground="{DynamicResource SkillzEmphasisBrush}"

@@ -1,9 +1,9 @@
+using System.ComponentModel;
 using System.Windows;
 using Microsoft.Extensions.DependencyInjection;
 using SkillzWin.Services;
 using SkillzWin.ViewModels;
 using SkillzWin.Views;
-using Wpf.Ui.Appearance;
 
 namespace SkillzWin;
 
@@ -24,11 +24,21 @@ public partial class App : Application
         ConfigureServices(collection);
         Services = collection.BuildServiceProvider();
 
-        // Theme: applied properly from settings in M11. For now follow the OS.
-        ApplicationThemeManager.ApplySystemTheme();
+        var settings = Services.GetRequiredService<ISettingsService>();
+        ThemeService.Apply(settings.Appearance);
+        settings.PropertyChanged += OnSettingsChanged;
 
         var window = Services.GetRequiredService<MainWindow>();
         window.Show();
+
+        if (!settings.HasCompletedOnboarding)
+            window.ShowOnboarding();
+    }
+
+    private void OnSettingsChanged(object? sender, PropertyChangedEventArgs e)
+    {
+        if (e.PropertyName == nameof(ISettingsService.Appearance) && sender is ISettingsService s)
+            ThemeService.Apply(s.Appearance);
     }
 
     /// <summary>Registers services, view-models, and windows with the DI container.</summary>

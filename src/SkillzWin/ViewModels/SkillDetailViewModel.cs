@@ -19,6 +19,7 @@ public sealed record SkillFileItem(string Url, string RelativeName, bool IsPrima
 public sealed partial class SkillDetailViewModel : ObservableObject, IDisposable
 {
     private readonly CatalogViewModel _catalog;
+    private readonly ISettingsService _settings;
 
     public SkillItem Skill { get; }
     public EditorDocument Document { get; }
@@ -27,17 +28,28 @@ public sealed partial class SkillDetailViewModel : ObservableObject, IDisposable
 
     [ObservableProperty] private SkillFileItem? _selectedFile;
 
-    public SkillDetailViewModel(SkillItem skill, EditorDocument document, SkillScanner scanner, CatalogViewModel catalog)
+    public SkillDetailViewModel(SkillItem skill, EditorDocument document, SkillScanner scanner, CatalogViewModel catalog, ISettingsService settings)
     {
         Skill = skill;
         Document = document;
         _catalog = catalog;
+        _settings = settings;
 
         foreach (var f in scanner.MarkdownFiles(skill.RootDirectory))
             Files.Add(new SkillFileItem(f.Url, MakeRelative(skill.RootDirectory, f.Url), f.IsPrimary));
 
         Document.PropertyChanged += OnDocumentChanged;
+        _settings.PropertyChanged += OnSettingsChanged;
         SelectInitialFile();
+    }
+
+    /// <summary>Editor font size from settings (bound by the AvalonEdit editor).</summary>
+    public double EditorFontSize => _settings.EditorFontSize;
+
+    private void OnSettingsChanged(object? sender, PropertyChangedEventArgs e)
+    {
+        if (e.PropertyName == nameof(ISettingsService.EditorFontSize))
+            OnPropertyChanged(nameof(EditorFontSize));
     }
 
     public string DisplayName => Skill.DisplayName;
@@ -109,7 +121,11 @@ public sealed partial class SkillDetailViewModel : ObservableObject, IDisposable
             OnPropertyChanged(nameof(EditorText));
     }
 
-    public void Dispose() => Document.PropertyChanged -= OnDocumentChanged;
+    public void Dispose()
+    {
+        Document.PropertyChanged -= OnDocumentChanged;
+        _settings.PropertyChanged -= OnSettingsChanged;
+    }
 
     private static string MakeRelative(string root, string path)
     {

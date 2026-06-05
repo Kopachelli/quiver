@@ -1,118 +1,94 @@
-# Skills for Windows
+<div align="center">
 
-A native **Windows** desktop app for browsing, editing, and managing local AI‑tool assets —
+# Quiver
+
+**Your agent toolkit, in one quiver.**
+
+A native **Windows** app to browse, edit, and manage your local AI‑tool assets —
 **skills**, **MCP servers**, and **plugins** — across Cursor, Claude Code, Codex, Hermes, Pi,
-and OpenCode. It is a faithful Windows port of the macOS app
-[skillz-macos](https://github.com/robzilla1738/skillz-macos), rebuilt as a proper native app
-(no web view, no Electron).
+and OpenCode.
 
-The app scans the agent dotfolders under your home directory
-(`%USERPROFILE%\.cursor`, `\.claude`, `\.codex`, `\.hermes`, `\.pi`, `\.openclaw`, plus the
-shared `\.agents\skills`) and gives you one place to inspect and edit the files these tools
-otherwise scatter across hidden folders.
+</div>
+
+---
+
+Quiver scans the agent dotfolders under your home directory (`%USERPROFILE%\.cursor`, `\.claude`,
+`\.codex`, `\.hermes`, `\.pi`, `\.openclaw`, plus the shared `\.agents\skills`) and gives you one
+place to inspect and edit the files these tools otherwise scatter across hidden folders. It's a
+genuinely native app — WPF, no web view, no Electron.
+
+## Download
+
+Grab the latest from the [**Releases page**](https://github.com/Kopachelli/quiver/releases/latest):
+
+- **Quiver‑Setup.exe** — installer (Start‑menu shortcut + uninstaller). Recommended.
+- **Quiver‑portable.exe** — single portable `.exe`, no install needed.
+
+Both are self‑contained (no .NET install required), for Windows 10/11 (x64). They're unsigned, so
+SmartScreen shows a one‑time *"Windows protected your PC"* prompt → **More info → Run anyway**.
+
+## Features
+
+- **Catalog discovery** across all six tools — skills (`SKILL.md` + frontmatter, built‑in Cursor,
+  plugin‑embedded, shared `~/.agents/skills` dedup), MCP servers (Cursor `mcp.json`, Claude
+  `.mcp.json`, Codex `config.toml`), and plugins — plus installed‑vs‑not source detection.
+- **Three‑pane browser** — sidebar (library + platform filters with live counts), searchable list,
+  detail pane. Fluent design with an indigo accent, light/dark/system themes.
+- **Skill editor** — AvalonEdit with frontmatter‑aware files, multi‑file tree, 1.2 s debounced
+  autosave, atomic UTF‑8 (no BOM) writes.
+- **MCP & plugin detail** views (read‑only cards + reveal/open/copy actions).
+- **CRUD** — New / Rename / Delete / Edit‑metadata dialogs with validation and capability gating.
+- **Onboarding & settings** — first‑run setup, appearance, library filters, editor font size.
+- **Live refresh** — `FileSystemWatcher` per root + refresh on window activation.
+- **Keyboard shortcuts** — Ctrl+N, Ctrl+R / F5, Ctrl+S, Ctrl+B, Ctrl+Alt+I.
 
 ## Tech stack
 
-| Concern | Choice |
-|---|---|
-| Runtime / UI | **WPF on .NET 8 (LTS)** — genuinely native |
-| Fluent theming / window | **WPF‑UI** (`FluentWindow`, Mica backdrop, `TitleBar`, `SymbolIcon`) |
-| MVVM | **CommunityToolkit.Mvvm** |
-| DI | **Microsoft.Extensions.DependencyInjection** |
-| Markdown editor | **AvalonEdit** |
-| Config parsing | **System.Text.Json** (mcp.json / plugin manifests) + a faithful port of the macOS mini‑TOML parser for Codex `config.toml` |
+WPF · .NET 8 (LTS) · WPF‑UI (Fluent/Mica) · CommunityToolkit.Mvvm ·
+Microsoft.Extensions.DependencyInjection · AvalonEdit. Config parsing uses System.Text.Json plus a
+faithful port of a minimal frontmatter/TOML reader (no third‑party YAML/TOML).
 
-The UI is intentionally **monochrome and monospaced** (Cascadia Code / Consolas), matching the
-original's editor‑style design; the accent is pure black, independent of the Windows accent color.
+## Build from source
 
-## Build & run
-
-Requires the **.NET 8 SDK** and the official NuGet source.
+Requires the **.NET 8 SDK**.
 
 ```powershell
 dotnet build src/SkillzWin/SkillzWin.csproj -c Debug
 dotnet run   --project src/SkillzWin/SkillzWin.csproj
 ```
 
-The built executable lands at `src/SkillzWin/bin/Debug/net8.0-windows/SkillzWin.exe`.
+### Package
 
-## Distribution
-
-Two distributable artifacts (both self‑contained — the target PC needs **nothing installed**):
-
-**1. Portable single‑file exe** (~71 MB, double‑click to run, copy anywhere):
 ```powershell
+# portable single-file exe
 dotnet publish src/SkillzWin/SkillzWin.csproj -c Release -r win-x64 --self-contained true `
   -p:PublishSingleFile=true -p:IncludeNativeLibrariesForSelfExtract=true `
   -p:EnableCompressionInSingleFile=true -o publish
-# -> publish\SkillzWin.exe
-```
 
-**2. Installer** (`Skills-Setup-x.y.z.exe`, ~51 MB — Start‑menu shortcut, optional desktop icon,
-uninstaller, app icon; installs per‑user without admin or all‑users via the privileges dialog):
-```powershell
-# first publish the folder payload the installer packages:
+# installer (folder payload + Inno Setup)
 dotnet publish src/SkillzWin/SkillzWin.csproj -c Release -r win-x64 --self-contained true -o publish-app
-# then compile the Inno Setup script:
-& "$env:LOCALAPPDATA\Programs\Inno Setup 6\ISCC.exe" installer\Skills.iss
-# -> dist\Skills-Setup-0.1.0.exe
+& "$env:LOCALAPPDATA\Programs\Inno Setup 6\ISCC.exe" installer\Quiver.iss
 ```
-
-Both are **unsigned**, so Windows SmartScreen shows a one‑time "Windows protected your PC" prompt
-(*More info → Run anyway*). Code‑signing removes it.
-
-## What's implemented
-
-- **Catalog discovery** across all six tools: skills (`SKILL.md` + frontmatter, built‑in Cursor,
-  plugin‑embedded, shared `~/.agents/skills` dedup), MCP servers (Cursor `mcp.json`, Claude
-  `.mcp.json`, Codex `config.toml`), and plugins (Cursor cache, Claude `installed_plugins.json`
-  + enable map, Codex config + synthetic entries).
-- **Source detection** (installed vs. not) via config files, skill content, and PATH/PATHEXT
-  executable resolution.
-- **Three‑pane browser** — sidebar (library sections + platform filters with live counts),
-  searchable/filterable item list, and a detail pane.
-- **Skill editor** — AvalonEdit with frontmatter‑aware files, multi‑file tree, 1.2 s debounced
-  autosave, atomic UTF‑8 (no BOM) `\n`‑preserving writes.
-- **MCP & plugin detail** views (read‑only cards + reveal/open/copy actions).
-- **CRUD** — New / Rename / Delete / Edit‑metadata dialogs with validation (incl. Win32
-  reserved‑name rejection) and capability gating.
-- **Live refresh** — `FileSystemWatcher` per root with a shared 300 ms debounce; refresh on window
-  activation.
-- **Keyboard shortcuts** — Ctrl+N (new), Ctrl+R / F5 (refresh), Ctrl+S (save), Ctrl+B (toggle
-  sidebar), Ctrl+Alt+I (toggle inspector).
-- **Settings persistence** at `%APPDATA%\SkillzWin\settings.json`.
-
-## Not yet built (follow‑ups)
-
-- Inspector panel (the optional 4th column; the toggle exists).
-- First‑run onboarding screen and the Settings window (appearance / hide‑flags / editor font size).
-- Platform **brand icons** (currently Fluent glyphs; the original SVGs are staged in
-  `assets-staging/`).
-- **Code signing** (to remove the SmartScreen prompt) and installer **auto‑update**.
-- The agent‑session **tray monitor + hooks** (intentionally deferred — see `docs/port-spec/00-PLAN.md`).
 
 ## Project layout
 
 ```
 src/SkillzWin/
-  Models/      domain records + enums (platforms, catalog items, detection, settings)
-  Services/    paths, scanners (skill/mcp/plugin), detector, store deps, file I/O, watcher
-  ViewModels/  catalog store, shell, skill editor, dialogs
-  Views/       MainWindow, sidebar/list/detail panes, components, dialogs
+  Models/      domain records + enums
+  Services/    paths, scanners (skill/mcp/plugin), detector, file I/O, watcher, theme
+  ViewModels/  catalog store, shell, editor, settings, onboarding, dialogs
+  Views/       MainWindow, panes, components, dialogs, settings, onboarding
   Themes/      color/typography/spacing/control dictionaries + converters
-docs/port-spec/  the reverse‑engineering spec + implementation plan this port was built from
+docs/          reverse-engineering spec + implementation plan
+installer/     Inno Setup script
 ```
-
-Detailed reverse‑engineering notes for each subsystem live in `docs/port-spec/`.
 
 ## License & acknowledgements
 
 Released under the **MIT License** (see [LICENSE](LICENSE)). Free and open source — a paid edition
 with extra features may follow later.
 
-Skills for Windows is an **independent, from‑scratch C#/WPF reimplementation** inspired by and
-behavior‑faithful to [robzilla1738/skillz-macos](https://github.com/robzilla1738/skillz-macos).
-No source code was copied; all original macOS artwork has been removed and the app icon is
-original. UI glyphs come from the Fluent System Icons shipped with WPF‑UI (MIT). Thanks to the
-original project for the concept and design language.
-
+Quiver is an **independent, from‑scratch C#/WPF application** whose design and feature set were
+**inspired by** [robzilla1738/skillz-macos](https://github.com/robzilla1738/skillz-macos). No source
+code or artwork was copied; the name, icon, theme, and implementation are original. UI glyphs come
+from the Fluent System Icons shipped with WPF‑UI (MIT). Thanks to that project for the original idea.
