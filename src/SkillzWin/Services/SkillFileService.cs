@@ -163,6 +163,45 @@ public sealed class SkillFileService
         return createdPaths;
     }
 
+    /// <summary>True if a skill with this folder name already lives in the platform's user skills dir.</summary>
+    public bool SkillExistsOnPlatform(string folderName, AgentPlatform platform)
+    {
+        var dir = Path.Combine(_paths.UserSkillsDirectory(platform), folderName);
+        return Directory.Exists(dir);
+    }
+
+    /// <summary>
+    /// Copies a skill's entire folder (SKILL.md + any reference files) into another tool's skills
+    /// directory. Quiver's cross-tool sync — the macOS app has no equivalent. Returns the new SKILL.md path.
+    /// </summary>
+    public string CopySkillToPlatform(SkillItem skill, AgentPlatform target)
+    {
+        var folderName = Path.GetFileName(skill.RootDirectory);
+        var skillsRoot = _paths.UserSkillsDirectory(target);
+        var destRoot = Path.Combine(skillsRoot, folderName);
+
+        if (Directory.Exists(destRoot))
+            throw new SkillFileException(SkillFileErrorKind.DuplicateName,
+                $"A skill named \"{folderName}\" already exists on {target.DisplayName()}.");
+
+        Directory.CreateDirectory(skillsRoot);
+        CopyDirectory(skill.RootDirectory, destRoot);
+        return Path.Combine(destRoot, "SKILL.md");
+    }
+
+    private static void CopyDirectory(string source, string destination)
+    {
+        Directory.CreateDirectory(destination);
+        foreach (var file in Directory.GetFiles(source))
+            File.Copy(file, Path.Combine(destination, Path.GetFileName(file)), overwrite: false);
+        foreach (var dir in Directory.GetDirectories(source))
+        {
+            var name = Path.GetFileName(dir);
+            if (name == ".git") continue;   // never propagate VCS metadata
+            CopyDirectory(dir, Path.Combine(destination, name));
+        }
+    }
+
     private static bool IsFolderBackedSkill(SkillItem skill)
     {
         var skillMd = Path.Combine(skill.RootDirectory, "SKILL.md");

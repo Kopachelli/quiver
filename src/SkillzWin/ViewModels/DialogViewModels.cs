@@ -126,6 +126,86 @@ public sealed partial class RenameSkillViewModel : ObservableObject
     }
 }
 
+/// <summary>One platform row in the Sync dialog (target tool + already-here state).</summary>
+public sealed partial class SyncTargetRow : ObservableObject
+{
+    public AgentPlatform Platform { get; }
+    public string DisplayName => Platform.DisplayName();
+    public string SkillsPath { get; }
+    public bool AlreadyExists { get; }
+    public bool IsDetected { get; }
+
+    [ObservableProperty] private bool _isSelected;
+
+    public bool CanToggle => !AlreadyExists;
+    public string StatusText => AlreadyExists ? "Already here" : (IsDetected ? "Copy here" : "Not detected — will install");
+
+    public SyncTargetRow(AgentPlatform platform, string skillsPath, bool alreadyExists, bool isDetected)
+    {
+        Platform = platform;
+        SkillsPath = skillsPath;
+        AlreadyExists = alreadyExists;
+        IsDetected = isDetected;
+        _isSelected = alreadyExists || isDetected;   // already-here shows checked (locked); detected pre-checked
+    }
+}
+
+/// <summary>Quiver's cross-tool sync dialog — copy a skill into your other agents.</summary>
+public sealed partial class SyncSkillViewModel : ObservableObject
+{
+    private readonly CatalogViewModel _catalog;
+
+    public SkillItem Skill { get; }
+    public ObservableCollection<SyncTargetRow> Targets { get; } = new();
+
+    [ObservableProperty] private string? _resultMessage;
+
+    public bool Succeeded { get; private set; }
+    public Action? RequestClose;
+
+    public SyncSkillViewModel(SkillItem skill, PlatformSkillPaths paths, CatalogViewModel catalog)
+    {
+        Skill = skill;
+        _catalog = catalog;
+
+        var folderName = Path.GetFileName(skill.RootDirectory);
+        var detected = catalog.DetectedPlatforms;
+
+        foreach (var p in AgentPlatformInfo.All)
+        {
+            var exists = catalog.SkillExistsOnPlatform(folderName, p);
+            var row = new SyncTargetRow(p, paths.UserSkillsDirectory(p), exists, detected.Contains(p));
+            row.PropertyChanged += OnRowChanged;
+            Targets.Add(row);
+        }
+    }
+
+    public string SkillName => Skill.DisplayName;
+    public bool CanSync => Targets.Any(t => t.IsSelected && !t.AlreadyExists);
+
+    private void OnRowChanged(object? sender, PropertyChangedEventArgs e)
+    {
+        if (e.PropertyName == nameof(SyncTargetRow.IsSelected)) SyncCommand.NotifyCanExecuteChanged();
+    }
+
+    [RelayCommand(CanExecute = nameof(CanSync))]
+    private void Sync()
+    {
+        var picks = Targets.Where(t => t.IsSelected && !t.AlreadyExists).Select(t => t.Platform).ToList();
+        var (copied, errors) = _catalog.SyncSelectedSkill(picks);
+
+        if (errors.Count == 0)
+        {
+            Succeeded = true;
+            RequestClose?.Invoke();
+        }
+        else
+        {
+            ResultMessage = $"Copied to {copied} tool(s). Issues — {string.Join("; ", errors)}";
+        }
+    }
+}
+
 /// <summary>Skill Details (metadata) dialog. Mirrors macOS <c>SkillDetailsSheet</c>.</summary>
 public sealed partial class SkillDetailsViewModel : ObservableObject
 {

@@ -188,6 +188,27 @@ public sealed partial class CatalogViewModel : ObservableObject
         LastOperationError = null;
     }
 
+    /// <summary>Quiver's cross-tool sync: copy the selected skill into each target tool.</summary>
+    public (int Copied, IReadOnlyList<string> Errors) SyncSelectedSkill(IReadOnlyCollection<AgentPlatform> targets)
+    {
+        var errors = new List<string>();
+        if (SelectedItem?.AsSkill is not { } skill) return (0, errors);
+
+        var copied = 0;
+        foreach (var target in targets)
+        {
+            try { _fileService.CopySkillToPlatform(skill, target); copied++; }
+            catch (Exception ex) { errors.Add($"{target.DisplayName()}: {FileAccessError.UserMessage(ex)}"); }
+        }
+
+        ReloadCatalog(skill.Id);
+        if (errors.Count > 0) LastOperationError = string.Join("  ", errors);
+        return (copied, errors);
+    }
+
+    public bool SkillExistsOnPlatform(string folderName, AgentPlatform platform)
+        => _fileService.SkillExistsOnPlatform(folderName, platform);
+
     public string CreateSkill(string name, string description, string body, IReadOnlyCollection<AgentPlatform> platforms)
     {
         var paths = _fileService.CreateSkill(name, description, body, platforms);

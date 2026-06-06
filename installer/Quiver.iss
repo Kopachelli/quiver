@@ -2,7 +2,7 @@
 ; Compile with: ISCC.exe installer\Quiver.iss
 
 #define MyAppName "Quiver"
-#define MyAppVersion "0.1.0"
+#define MyAppVersion "0.1.1"
 #define MyAppPublisher "Quiver"
 #define MyAppExeName "Quiver.exe"
 

@@ -27,6 +27,7 @@ public partial class MainWindow : FluentWindow
         _vm.RequestEditDetails = OpenSkillDetails;
         _vm.RequestRenameSkill = OpenRename;
         _vm.RequestDeleteSkill = OpenDelete;
+        _vm.RequestSyncSkill = OpenSync;
         _vm.RequestSettings = OpenSettings;
 
         Loaded += OnLoaded;
@@ -47,6 +48,15 @@ public partial class MainWindow : FluentWindow
         if (_vm.Catalog.SelectedItem?.AsSkill is not { } skill) return;
         var vm = new RenameSkillViewModel(skill, _vm.Catalog, App.Services.GetRequiredService<EditorDocument>());
         var dlg = new RenameSkillDialog { Owner = this, DataContext = vm };
+        vm.RequestClose = () => dlg.Close();
+        dlg.ShowDialog();
+    }
+
+    private void OpenSync()
+    {
+        if (_vm.Catalog.SelectedItem?.AsSkill is not { } skill) return;
+        var vm = new SyncSkillViewModel(skill, App.Services.GetRequiredService<PlatformSkillPaths>(), _vm.Catalog);
+        var dlg = new SyncSkillDialog { Owner = this, DataContext = vm };
         vm.RequestClose = () => dlg.Close();
         dlg.ShowDialog();
     }

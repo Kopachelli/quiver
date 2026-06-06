@@ -61,6 +61,9 @@
                 <StackPanel Grid.Column="2" Orientation="Horizontal">
                     <StackPanel Orientation="Horizontal" Margin="0,0,12,0"
                                 Visibility="{Binding IsSkillSelected, Converter={StaticResource BoolToVis}}">
+                        <Button Content="⇄ Sync" Style="{StaticResource SkillzPillButton}"
+                                Command="{Binding SyncSkillCommand}" ToolTip="Copy this skill into your other tools"
+                                Margin="0,0,8,0"/>
                         <Button Content="Details" Style="{StaticResource SkillzPillButton}"
                                 Command="{Binding EditDetailsCommand}" ToolTip="Edit skill metadata"/>
                         <Button Content="Rename" Style="{StaticResource SkillzPillButton}" Margin="8,0,0,0"

@@ -107,6 +107,7 @@ public sealed partial class MainViewModel : ObservableObject
     [RelayCommand] private void EditDetails() => RequestEditDetails?.Invoke();
     [RelayCommand(CanExecute = nameof(CanModifySelectedSkill))] private void RenameSkill() => RequestRenameSkill?.Invoke();
     [RelayCommand(CanExecute = nameof(CanModifySelectedSkill))] private void DeleteSkill() => RequestDeleteSkill?.Invoke();
+    [RelayCommand(CanExecute = nameof(IsSkillSelected))] private void SyncSkill() => RequestSyncSkill?.Invoke();
 
     [RelayCommand] private void OpenSettings() => RequestSettings?.Invoke();
 
@@ -115,6 +116,7 @@ public sealed partial class MainViewModel : ObservableObject
     public Action? RequestEditDetails;
     public Action? RequestRenameSkill;
     public Action? RequestDeleteSkill;
+    public Action? RequestSyncSkill;
     public Action? RequestSettings;
 
     // --- Wiring ---
@@ -211,6 +213,7 @@ public sealed partial class MainViewModel : ObservableObject
         SaveCommand.NotifyCanExecuteChanged();
         RenameSkillCommand.NotifyCanExecuteChanged();
         DeleteSkillCommand.NotifyCanExecuteChanged();
+        SyncSkillCommand.NotifyCanExecuteChanged();
     }
 
     private static SymbolRegular SectionIcon(CatalogSection s) => s switch

@@ -14,6 +14,10 @@
             <Setter Property="ContextMenu">
                 <Setter.Value>
                     <ContextMenu>
+                        <MenuItem Header="Sync to tools…"
+                                  Command="{Binding PlacementTarget.Tag.SyncSkillCommand, RelativeSource={RelativeSource AncestorType=ContextMenu}}"
+                                  Visibility="{Binding PlacementTarget.DataContext.AsSkill, RelativeSource={RelativeSource AncestorType=ContextMenu}, Converter={StaticResource NullOrEmptyToVis}}"/>
+                        <Separator Visibility="{Binding PlacementTarget.DataContext.AsSkill, RelativeSource={RelativeSource AncestorType=ContextMenu}, Converter={StaticResource NullOrEmptyToVis}}"/>
                         <MenuItem Header="Reveal in Explorer"
                                   Command="{Binding PlacementTarget.Tag.RevealItemCommand, RelativeSource={RelativeSource AncestorType=ContextMenu}}"
                                   CommandParameter="{Binding PlacementTarget.DataContext, RelativeSource={RelativeSource AncestorType=ContextMenu}}"/>
