@@ -44,6 +44,16 @@ public sealed partial class MainViewModel : ObservableObject
     // --- Header / state ---
 
     public string AppName => AppBrand.Name;
+
+    public string AppVersion
+    {
+        get
+        {
+            var v = System.Reflection.Assembly.GetExecutingAssembly().GetName().Version;
+            return v is null ? string.Empty : $"v{v.Major}.{v.Minor}.{v.Build}";
+        }
+    }
+
     public int TotalItemCount => Catalog.Snapshot.AllItems.Count;
     public bool ShowInspector => Catalog.ShowInspector;
 
