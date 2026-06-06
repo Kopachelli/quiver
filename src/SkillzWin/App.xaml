@@ -11,20 +11,9 @@
                 <ResourceDictionary Source="Themes/Colors.Light.xaml" />
                 <ResourceDictionary Source="Themes/Typography.xaml" />
                 <ResourceDictionary Source="Themes/Spacing.xaml" />
+                <ResourceDictionary Source="Themes/Converters.xaml" />
                 <ResourceDictionary Source="Themes/Controls.xaml" />
             </ResourceDictionary.MergedDictionaries>
-
-            <!-- Shared converters -->
-            <conv:ToUpperConverter x:Key="ToUpper" />
-            <conv:BoolToVisibilityConverter x:Key="BoolToVis" />
-            <conv:NullOrEmptyToVisibilityConverter x:Key="NullOrEmptyToVis" />
-            <conv:CompactPathConverter x:Key="CompactPath" />
-            <conv:AgentPlatformDisplayConverter x:Key="PlatformDisplay" />
-            <conv:BoolToEnabledTextConverter x:Key="EnabledText" />
-            <conv:CatalogSubtitleConverter x:Key="Subtitle" />
-            <conv:ArgsJoinConverter x:Key="ArgsJoin" />
-            <conv:EnvKeysDisplayConverter x:Key="EnvKeys" />
-            <conv:BoolToGridLengthConverter x:Key="BoolToGridLength" />
         </ResourceDictionary>
     </Application.Resources>
 </Application>
