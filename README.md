@@ -8,6 +8,10 @@ A native **Windows** app to browse, edit, and manage your local AI‑tool assets
 **skills**, **MCP servers**, and **plugins** — across Cursor, Claude Code, Codex, Hermes, Pi,
 and OpenCode.
 
+[**Website**](https://kopachelli.github.io/quiver/) · [**Download**](https://github.com/Kopachelli/quiver/releases/latest)
+
+![Quiver](docs/screenshot.png)
+
 </div>
 
 ---
