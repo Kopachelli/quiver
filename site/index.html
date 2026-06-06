@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Quiver — your agent toolkit, in one quiver</title>
+<meta name="description" content="A native Windows app to browse, edit, and manage AI-tool skills, MCP servers, and plugins across Cursor, Claude Code, Codex, Hermes, Pi, and OpenCode." />
+<link rel="icon" href="logo.png" />
+<style>
+  :root{
+    --indigo:#4f46e5; --indigo-2:#6366f1; --ink:#0f1020; --muted:#6b6f86;
+    --bg:#ffffff; --soft:#f5f5f8; --line:#e7e7ee; --card:#ffffff;
+    --mono:"Cascadia Code","Consolas",ui-monospace,monospace;
+    --ui:"Segoe UI Variable","Segoe UI",system-ui,sans-serif;
+  }
+  *{box-sizing:border-box}
+  body{margin:0;font-family:var(--ui);color:var(--ink);background:var(--bg);line-height:1.55}
+  a{color:inherit;text-decoration:none}
+  .wrap{max-width:1060px;margin:0 auto;padding:0 24px}
+  code,.mono{font-family:var(--mono)}
+
+  /* nav */
+  nav{display:flex;align-items:center;justify-content:space-between;padding:20px 0}
+  .brand{display:flex;align-items:center;gap:10px;font-weight:700;font-size:18px}
+  .brand img{width:30px;height:30px;border-radius:8px}
+  .nav-links a{color:var(--muted);font-size:14px;margin-left:22px}
+  .nav-links a:hover{color:var(--ink)}
+
+  /* hero */
+  .hero{position:relative;padding:64px 0 72px;text-align:center;overflow:hidden}
+  .hero::before{content:"";position:absolute;inset:0;background:
+     radial-gradient(900px 400px at 50% -10%, rgba(79,70,229,.16), transparent 70%);z-index:-1}
+  .logo-lg{width:84px;height:84px;border-radius:20px;box-shadow:0 12px 40px rgba(79,70,229,.35);margin-bottom:22px}
+  .hero h1{font-size:clamp(38px,6vw,64px);margin:0 0 8px;letter-spacing:-1.5px;font-weight:800}
+  .hero .tag{font-family:var(--mono);color:var(--indigo);font-size:clamp(15px,2.4vw,20px);margin:0 0 18px}
+  .hero p.sub{max-width:640px;margin:0 auto 30px;color:var(--muted);font-size:17px}
+  .btns{display:flex;gap:14px;justify-content:center;flex-wrap:wrap}
+  .btn{display:inline-flex;align-items:center;gap:8px;padding:13px 24px;border-radius:12px;font-weight:600;font-size:15px;border:1px solid transparent;transition:.15s}
+  .btn.primary{background:var(--indigo);color:#fff;box-shadow:0 8px 24px rgba(79,70,229,.32)}
+  .btn.primary:hover{background:var(--indigo-2);transform:translateY(-1px)}
+  .btn.ghost{background:#fff;border-color:var(--line);color:var(--ink)}
+  .btn.ghost:hover{border-color:var(--indigo);color:var(--indigo)}
+  .meta{margin-top:14px;color:var(--muted);font-size:13px}
+
+  /* shot */
+  .shot{margin:8px auto 0;max-width:980px;padding:0 24px}
+  .shot img{width:100%;border-radius:14px;border:1px solid var(--line);box-shadow:0 30px 80px rgba(15,16,32,.16)}
+
+  /* sections */
+  section{padding:72px 0}
+  .soft{background:var(--soft);border-top:1px solid var(--line);border-bottom:1px solid var(--line)}
+  h2{font-size:30px;letter-spacing:-.5px;margin:0 0 8px;text-align:center}
+  .lead{text-align:center;color:var(--muted);max-width:620px;margin:0 auto 40px}
+  .grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:18px}
+  .card{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:22px}
+  .card h3{margin:0 0 6px;font-size:17px}
+  .card p{margin:0;color:var(--muted);font-size:14.5px}
+  .dot{display:inline-block;width:30px;height:30px;border-radius:8px;background:rgba(79,70,229,.12);color:var(--indigo);
+       text-align:center;line-height:30px;font-weight:700;margin-bottom:12px;font-family:var(--mono)}
+
+  .tools{display:flex;flex-wrap:wrap;gap:10px;justify-content:center;margin-top:8px}
+  .pill{font-family:var(--mono);font-size:13px;color:var(--ink);background:#fff;border:1px solid var(--line);border-radius:999px;padding:7px 14px}
+
+  footer{padding:40px 0;border-top:1px solid var(--line);color:var(--muted);font-size:13.5px}
+  footer a{color:var(--indigo)}
+  .foot{display:flex;justify-content:space-between;flex-wrap:wrap;gap:10px}
+</style>
+</head>
+<body>
+
+<div class="wrap">
+  <nav>
+    <div class="brand"><img src="logo.png" alt="Quiver" /> Quiver</div>
+    <div class="nav-links">
+      <a href="#features">Features</a>
+      <a href="#download">Download</a>
+      <a href="https://github.com/Kopachelli/quiver">GitHub</a>
+    </div>
+  </nav>
+</div>
+
+<header class="hero">
+  <div class="wrap">
+    <img class="logo-lg" src="logo.png" alt="Quiver logo" />
+    <h1>Quiver</h1>
+    <p class="tag">Your agent toolkit, in one quiver.</p>
+    <p class="sub">A native Windows app to browse, edit, and manage your local AI‑tool assets —
+      <strong>skills</strong>, <strong>MCP servers</strong>, and <strong>plugins</strong> — across all your coding agents.</p>
+    <div class="btns" id="download">
+      <a class="btn primary" href="https://github.com/Kopachelli/quiver/releases/latest/download/Quiver-Setup.exe">⬇ Download installer</a>
+      <a class="btn ghost" href="https://github.com/Kopachelli/quiver/releases/latest/download/Quiver-portable.exe">Portable .exe</a>
+      <a class="btn ghost" href="https://github.com/Kopachelli/quiver">★ View on GitHub</a>
+    </div>
+    <div class="meta">Free &amp; open source (MIT) · Windows 10/11 (x64) · self‑contained, no .NET required</div>
+  </div>
+</header>
+
+<div class="shot"><img src="screenshot.png" alt="Quiver screenshot" /></div>
+
+<section id="features">
+  <div class="wrap">
+    <h2>One place for every tool's hidden files</h2>
+    <p class="lead">Your coding agents scatter skills, MCP configs, and plugins across hidden dotfolders. Quiver finds and centralizes them all.</p>
+    <div class="grid">
+      <div class="card"><div class="dot">◆</div><h3>Six tools, one view</h3><p>Discovers skills, MCP servers, and plugins from Cursor, Claude Code, Codex, Hermes, Pi, and OpenCode — automatically.</p></div>
+      <div class="card"><div class="dot">✎</div><h3>Real editor</h3><p>A monospace <code>SKILL.md</code> editor with frontmatter, a multi‑file tree, and debounced autosave that writes straight back to disk.</p></div>
+      <div class="card"><div class="dot">✚</div><h3>Create &amp; manage</h3><p>New, rename, delete, and edit metadata — with validation and safe, atomic writes.</p></div>
+      <div class="card"><div class="dot">⟲</div><h3>Always live</h3><p>Watches your folders and refreshes on the fly. Search and filter by tool or section instantly.</p></div>
+      <div class="card"><div class="dot">◧</div><h3>Native &amp; fast</h3><p>Built with WPF on .NET 8 — a genuine Windows app with Fluent design and light/dark themes. No web view, no Electron.</p></div>
+      <div class="card"><div class="dot">⌘</div><h3>Free &amp; open</h3><p>MIT licensed and open source. Download the installer or run the single portable executable.</p></div>
+    </div>
+  </div>
+</section>
+
+<section class="soft">
+  <div class="wrap">
+    <h2>Works with your agents</h2>
+    <p class="lead">Reads the dotfolders these tools already use under your home directory.</p>
+    <div class="tools">
+      <span class="pill">Cursor</span><span class="pill">Claude Code</span><span class="pill">Codex</span>
+      <span class="pill">Hermes</span><span class="pill">Pi</span><span class="pill">OpenCode</span>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="wrap foot">
+    <div>© 2026 Quiver · MIT License · Inspired by <a href="https://github.com/robzilla1738/skillz-macos">skillz‑macos</a></div>
+    <div><a href="https://github.com/Kopachelli/quiver">github.com/Kopachelli/quiver</a></div>
+  </div>
+</footer>
+
+</body>
+</html>
