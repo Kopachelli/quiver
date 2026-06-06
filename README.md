@@ -33,6 +33,9 @@ SmartScreen shows a one‑time *"Windows protected your PC"* prompt → **More i
 
 ## Features
 
+- **🔁 Sync skills across tools** *(Quiver‑only)* — copy a skill (its whole folder, references and
+  all) into your other agents in one click. Quiver shows where it already exists and installs it
+  everywhere you pick. The macOS app it's inspired by can't do this.
 - **Catalog discovery** across all six tools — skills (`SKILL.md` + frontmatter, built‑in Cursor,
   plugin‑embedded, shared `~/.agents/skills` dedup), MCP servers (Cursor `mcp.json`, Claude
   `.mcp.json`, Codex `config.toml`), and plugins — plus installed‑vs‑not source detection.
