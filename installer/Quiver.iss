@@ -2,7 +2,7 @@
 ; Compile with: ISCC.exe installer\Quiver.iss
 
 #define MyAppName "Quiver"
-#define MyAppVersion "0.1.1"
+#define MyAppVersion "0.1.2"
 #define MyAppPublisher "Quiver"
 #define MyAppExeName "Quiver.exe"
 
@@ -16,8 +16,8 @@ DefaultDirName={autopf}\{#MyAppName}
 DefaultGroupName={#MyAppName}
 DisableProgramGroupPage=yes
 UninstallDisplayIcon={app}\{#MyAppExeName}
-SetupIconFile=C:\github\skills-windows\src\SkillzWin\Assets\AppIcon.ico
-OutputDir=C:\github\skills-windows\dist
+SetupIconFile=..\src\SkillzWin\Assets\AppIcon.ico
+OutputDir=..\dist
 OutputBaseFilename=Quiver-Setup
 Compression=lzma2/max
 SolidCompression=yes
@@ -34,7 +34,7 @@ Name: "english"; MessagesFile: "compiler:Default.isl"
 Name: "desktopicon"; Description: "Create a &desktop shortcut"; GroupDescription: "Additional shortcuts:"; Flags: unchecked
 
 [Files]
-Source: "C:\github\skills-windows\publish-app\*"; DestDir: "{app}"; Flags: ignoreversion recursesubdirs createallsubdirs
+Source: "..\publish-app\*"; DestDir: "{app}"; Flags: ignoreversion recursesubdirs createallsubdirs
 
 [Icons]
 Name: "{group}\{#MyAppName}"; Filename: "{app}\{#MyAppExeName}"

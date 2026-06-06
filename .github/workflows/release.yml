@@ -1,0 +1,82 @@
+name: Release
+
+# Builds the portable exe + installer on a Windows runner and publishes a GitHub Release.
+# Code signing (free for OSS via SignPath Foundation) is pre-wired but inert until you set the
+# repo variable SIGNING_ENABLED=true and the SignPath secrets/variables — see docs/SIGNING.md.
+
+on:
+  push:
+    tags: ['v*']        # cut a release by pushing a tag, e.g. git tag v0.1.3 && git push origin v0.1.3
+  workflow_dispatch:    # or run manually (build-only; no release unless triggered by a tag)
+
+permissions:
+  contents: write       # needed to create the GitHub Release
+
+jobs:
+  build:
+    runs-on: windows-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: '8.0.x'
+
+      - name: Publish portable (self-contained single-file)
+        shell: pwsh
+        run: >
+          dotnet publish src/SkillzWin/SkillzWin.csproj -c Release -r win-x64 --self-contained true
+          -p:PublishSingleFile=true -p:IncludeNativeLibrariesForSelfExtract=true -p:EnableCompressionInSingleFile=true
+          -o publish
+
+      - name: Publish installer payload
+        shell: pwsh
+        run: dotnet publish src/SkillzWin/SkillzWin.csproj -c Release -r win-x64 --self-contained true -o publish-app
+
+      - name: Stage portable
+        shell: pwsh
+        run: |
+          New-Item -ItemType Directory -Force dist | Out-Null
+          Copy-Item publish/Quiver.exe dist/Quiver-portable.exe -Force
+
+      - name: Build installer (Inno Setup)
+        shell: pwsh
+        run: |
+          choco install innosetup -y --no-progress
+          & "C:\Program Files (x86)\Inno Setup 6\ISCC.exe" installer/Quiver.iss
+
+      # ---------- Code signing (free for OSS — SignPath Foundation) ----------
+      # Activates only when you set repo variable SIGNING_ENABLED = true (see docs/SIGNING.md).
+      - name: Upload unsigned artifacts (for signing)
+        id: unsigned
+        if: vars.SIGNING_ENABLED == 'true'
+        uses: actions/upload-artifact@v4
+        with:
+          name: quiver-unsigned
+          path: |
+            dist/Quiver-Setup.exe
+            dist/Quiver-portable.exe
+
+      - name: Sign with SignPath
+        if: vars.SIGNING_ENABLED == 'true'
+        uses: signpath/github-action-submit-signing-request@v1
+        with:
+          api-token: ${{ secrets.SIGNPATH_API_TOKEN }}
+          organization-id: ${{ vars.SIGNPATH_ORG_ID }}
+          project-slug: quiver
+          signing-policy-slug: release-signing
+          artifact-configuration-slug: initial
+          github-artifact-id: ${{ steps.unsigned.outputs.artifact-id }}
+          wait-for-completion: true
+          output-artifact-directory: dist   # overwrite the unsigned files with signed copies
+
+      # ---------- Publish the release (tag pushes only) ----------
+      - name: Publish GitHub Release
+        if: startsWith(github.ref, 'refs/tags/')
+        uses: softprops/action-gh-release@v2
+        with:
+          files: |
+            dist/Quiver-Setup.exe
+            dist/Quiver-portable.exe
+          generate_release_notes: true
+          fail_on_unmatched_files: true
