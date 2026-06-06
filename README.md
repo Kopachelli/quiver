@@ -31,6 +31,10 @@ Grab the latest from the [**Releases page**](https://github.com/Kopachelli/quive
 Both are self‑contained (no .NET install required), for Windows 10/11 (x64). They're unsigned, so
 SmartScreen shows a one‑time *"Windows protected your PC"* prompt → **More info → Run anyway**.
 
+What changed in each version: see the [**changelog**](CHANGELOG.md) or the
+[**releases**](https://github.com/Kopachelli/quiver/releases). The version you're running is shown in
+the app's sidebar.
+
 ## Features
 
 - **🔁 Sync skills across tools** *(Quiver‑only)* — copy a skill (its whole folder, references and
