@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Privacy Policy — Quiver</title>
+<meta name="description" content="Quiver collects no data and makes no network connections. It runs entirely on your device." />
+<link rel="icon" href="logo.png" />
+<style>
+  :root{ --indigo:#4f46e5; --ink:#0f1020; --muted:#6b6f86; --bg:#fff; --line:#e7e7ee;
+    --mono:"Cascadia Code","Consolas",ui-monospace,monospace; --ui:"Segoe UI Variable","Segoe UI",system-ui,sans-serif; }
+  *{box-sizing:border-box}
+  body{margin:0;font-family:var(--ui);color:var(--ink);background:var(--bg);line-height:1.65}
+  a{color:var(--indigo)}
+  .wrap{max-width:760px;margin:0 auto;padding:0 24px}
+  nav{display:flex;align-items:center;justify-content:space-between;padding:20px 0}
+  .brand{display:flex;align-items:center;gap:10px;font-weight:700;font-size:18px;color:var(--ink);text-decoration:none}
+  .brand img{width:30px;height:30px;border-radius:8px}
+  h1{font-size:34px;letter-spacing:-.6px;margin:24px 0 4px}
+  .upd{color:var(--muted);font-size:14px;margin-bottom:28px}
+  h2{font-size:20px;margin:34px 0 8px}
+  p,li{color:#26283a;font-size:16px}
+  code{font-family:var(--mono);font-size:14px;background:#f5f5f8;border:1px solid var(--line);border-radius:6px;padding:1px 6px}
+  .lead{font-size:18px}
+  .lead strong{color:var(--indigo)}
+  footer{margin:48px 0 40px;padding-top:20px;border-top:1px solid var(--line);color:var(--muted);font-size:13.5px}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <nav><a class="brand" href="index.html"><img src="logo.png" alt="Quiver" /> Quiver</a>
+    <a href="index.html" style="color:var(--muted);font-size:14px">← Back</a></nav>
+
+  <h1>Privacy Policy</h1>
+  <div class="upd">Last updated: 6 June 2026</div>
+
+  <p class="lead"><strong>Quiver does not collect, transmit, store, or share any personal data.</strong>
+     It is a local Windows desktop app that runs entirely on your device.</p>
+
+  <h2>What Quiver does</h2>
+  <ul>
+    <li><strong>No telemetry, analytics, or tracking.</strong> No usage tracking, no analytics SDKs, no remote crash reporting.</li>
+    <li><strong>No network connections.</strong> Quiver makes no internet or server connections — it doesn't "phone home," check for updates online, or send anything anywhere.</li>
+    <li><strong>Local files only.</strong> It reads and edits the skill, MCP‑server, and plugin files your agents already keep in your home directory (e.g. <code>%USERPROFILE%\.cursor</code>, <code>\.claude</code>, <code>\.codex</code>…). These never leave your computer.</li>
+    <li><strong>Settings &amp; logs stay local.</strong> Settings live at <code>%APPDATA%\Quiver\settings.json</code>; a diagnostic note may be written to <code>%APPDATA%\Quiver\crash.log</code> on error. Neither is ever transmitted.</li>
+    <li><strong>No accounts, no sign‑in, no cookies.</strong></li>
+  </ul>
+  <p>The only actions involving other programs are ones you explicitly trigger — "Reveal in Explorer", "Open in Default App", "Open in Cursor" — which launch local apps on your PC.</p>
+
+  <h2>Website &amp; downloads</h2>
+  <p>The Quiver website is hosted on <strong>GitHub Pages</strong> and downloads come from
+     <strong>GitHub Releases</strong>. When you visit those, GitHub may process standard request data
+     (such as IP address and user agent) under
+     <a href="https://docs.github.com/site-policy/privacy-policies/github-general-privacy-statement">GitHub's Privacy Statement</a>.
+     That is GitHub's processing, not Quiver's.</p>
+
+  <h2>Contact</h2>
+  <p>Questions? Open an issue at <a href="https://github.com/Kopachelli/quiver/issues">github.com/Kopachelli/quiver/issues</a>.</p>
+
+  <footer>© 2026 Quiver · MIT License · Quiver collects nothing and runs entirely offline.</footer>
+</div>
+</body>
+</html>
