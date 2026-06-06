@@ -54,7 +54,7 @@
         <StackPanel Grid.Row="0" Margin="16,12,16,12">
             <TextBlock Text="{Binding AppName}" Style="{StaticResource SkillzNavigationTitleText}"/>
             <TextBlock Style="{StaticResource SkillzCaptionText}" Margin="0,3,0,0">
-                <Run Text="{Binding TotalItemCount, Mode=OneWay}"/><Run Text=" catalog items"/>
+                <Run Text="{Binding AppVersion, Mode=OneWay}"/><Run Text="  ·  "/><Run Text="{Binding TotalItemCount, Mode=OneWay}"/><Run Text=" items"/>
             </TextBlock>
         </StackPanel>
 
