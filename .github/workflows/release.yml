@@ -71,6 +71,17 @@ jobs:
           output-artifact-directory: dist   # overwrite the unsigned files with signed copies
 
       # ---------- Publish the release (tag pushes only) ----------
+      - name: Build release notes from CHANGELOG
+        if: startsWith(github.ref, 'refs/tags/')
+        shell: pwsh
+        run: |
+          $version = "${{ github.ref_name }}".TrimStart('v')
+          $text = Get-Content CHANGELOG.md -Raw
+          $pattern = "(?ms)^## \[" + [regex]::Escape($version) + "\].*?(?=^## \[|\z)"
+          $m = [regex]::Match($text, $pattern)
+          $notes = if ($m.Success) { $m.Value.Trim() } else { "See the [changelog](https://github.com/Kopachelli/quiver/blob/main/CHANGELOG.md)." }
+          $notes | Out-File release-notes.md -Encoding utf8
+
       - name: Publish GitHub Release
         if: startsWith(github.ref, 'refs/tags/')
         uses: softprops/action-gh-release@v2
@@ -78,5 +89,5 @@ jobs:
           files: |
             dist/Quiver-Setup.exe
             dist/Quiver-portable.exe
-          generate_release_notes: true
+          body_path: release-notes.md
           fail_on_unmatched_files: true
